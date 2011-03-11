@@ -7,6 +7,7 @@ class HolderTests extends PHPUnit_Framework_TestCase {
     $playlist = $builder->build(__DIR__ . "/music/Metallica - Load - 1997");
     $this->assertEquals("Playlist", get_class($playlist));
     $this->assertEquals("/mnt/src/pusha/test/music/Metallica - Load - 1997/cover.jpg", $playlist->cover);
+    $this->assertEquals("Metallica - Load - 1997", $playlist->title);
   }
 }
 
@@ -17,6 +18,8 @@ class PlaylistBuilder {
     if (!is_file($playlist->cover)) {
       // raise ex 
     }
+    $playlist->title = array_pop(explode("/", $pathToPlaylistFiles));
+
     return $playlist;
   }
 }
