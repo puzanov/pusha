@@ -11,6 +11,10 @@ class HolderTests extends PHPUnit_Framework_TestCase {
 
 class PlaylistBuilder {
   public function build($pathToPlaylistFiles) {
-  
+    return new Playlist(); 
   }
+}
+
+class Playlist {
+
 }
