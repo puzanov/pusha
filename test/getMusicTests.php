@@ -19,10 +19,20 @@ class HolderTests extends PHPUnit_Framework_TestCase {
     $playlist = $builder->build(__DIR__ . "/music/invalid_dir");
     $this->assertNotEquals(__DIR__ . "/music/invalid_dir/folder", $playlist->tracks[0]);
   }
+  
+  /**
+   * @expectedException IncompletePlaylistException
+   */
+  public function testGetInvalid_Empty() {
+    $builder = new PlaylistBuilder();
+    $playlist = $builder->build(__DIR__ . "/music/empty");
+  }
 }
 
 class PlaylistBuilder {
   public function build($pathToPlaylistFiles) {
+    $items = glob("{$pathToPlaylistFiles}/*");
+    if (empty($items)) throw new IncompletePlaylistException();
     $playlist = new Playlist();
     $playlist->cover = $pathToPlaylistFiles . "/cover.jpg";
     if (!is_file($playlist->cover)) {
@@ -41,3 +51,5 @@ class Playlist {
   var $info;
   var $tracks;
 }
+
+class IncompletePlaylistException extends Exception {}
