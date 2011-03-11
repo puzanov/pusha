@@ -11,7 +11,13 @@ class HolderTests extends PHPUnit_Framework_TestCase {
     $this->assertEquals("Metallica Load Remastered", trim($playlist->info));
     $this->assertEquals(__DIR__ . "/music/Metallica - Load - 1997/track1.mp3", $playlist->tracks[0]);
     $this->assertEquals(__DIR__ . "/music/Metallica - Load - 1997/track2.mp3", $playlist->tracks[1]);
-    $this->assertEquals(__DIR__ . "/music/Metallica - Load - 1997/track3.mp3", $playlist->tracks[2]);
+    $this->assertEquals(__DIR__ . "/music/Metallica - Load - 1997/track3.MP3", $playlist->tracks[2]);
+  }
+  
+  public function testGetInvalid_Dir() {
+    $builder = new PlaylistBuilder();
+    $playlist = $builder->build(__DIR__ . "/music/invalid_dir");
+    $this->assertNotEquals(__DIR__ . "/music/invalid_dir/folder", $playlist->tracks[0]);
   }
 }
 
@@ -20,15 +26,18 @@ class PlaylistBuilder {
     $playlist = new Playlist();
     $playlist->cover = $pathToPlaylistFiles . "/cover.jpg";
     if (!is_file($playlist->cover)) {
-      // raise ex 
+      $playlist->cover = NULL; 
     }
     $playlist->title = array_pop(explode("/", $pathToPlaylistFiles));
-    $playlist->info = file_get_contents($pathToPlaylistFiles . "/info.txt");
-    $playlist->tracks = glob("{$pathToPlaylistFiles}/*.mp3");
+    $playlist->info = @file_get_contents($pathToPlaylistFiles . "/info.txt");
+    $playlist->tracks = glob("{$pathToPlaylistFiles}/*.{mp3,MP3,Mp3,mP3}", GLOB_BRACE);
     return $playlist;
   }
 }
 
 class Playlist {
   var $cover;
+  var $title;
+  var $info;
+  var $tracks;
 }
