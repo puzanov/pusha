@@ -14,18 +14,28 @@ class HolderTests extends PHPUnit_Framework_TestCase {
     $this->assertEquals(__DIR__ . "/music/Metallica - Load - 1997/track3.MP3", $playlist->tracks[2]);
   }
   
+  /**
+   * @expectedException IncompletePlaylistException
+   */
   public function testGetInvalid_Dir() {
     $builder = new PlaylistBuilder();
     $playlist = $builder->build(__DIR__ . "/music/invalid_dir");
-    $this->assertNotEquals(__DIR__ . "/music/invalid_dir/folder", $playlist->tracks[0]);
   }
   
   /**
    * @expectedException IncompletePlaylistException
    */
-  public function testGetInvalid_Empty() {
+  public function testGetInvalid_EmptyDir() {
     $builder = new PlaylistBuilder();
     $playlist = $builder->build(__DIR__ . "/music/empty");
+  }
+  
+  /**
+   * @expectedException IncompletePlaylistException
+   */
+  public function testGetInvalid_NoTracks() {
+    $builder = new PlaylistBuilder();
+    $playlist = $builder->build(__DIR__ . "/music/notracks");
   }
 }
 
@@ -41,6 +51,7 @@ class PlaylistBuilder {
     $playlist->title = array_pop(explode("/", $pathToPlaylistFiles));
     $playlist->info = @file_get_contents($pathToPlaylistFiles . "/info.txt");
     $playlist->tracks = glob("{$pathToPlaylistFiles}/*.{mp3,MP3,Mp3,mP3}", GLOB_BRACE);
+    if (empty($playlist->tracks)) throw new IncompletePlaylistException();
     return $playlist;
   }
 }
