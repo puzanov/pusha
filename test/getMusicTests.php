@@ -2,7 +2,7 @@
 include "test/config.php";
 include "lib/PlaylistBuilder.php";
 
-class HolderTests extends PHPUnit_Framework_TestCase { 
+class PlaylistBuilderTests extends PHPUnit_Framework_TestCase { 
   public function testGetValid() {
     $builder = new PlaylistBuilder();
     $playlist = $builder->build(__DIR__ . "/music/Metallica - Load - 1997");
