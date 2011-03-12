@@ -10,7 +10,17 @@ class PlaylistManagerTests extends PHPUnit_Framework_TestCase {
     $playlist->cover = NULL;
     $playlist->title = "title";
     $playlist->info = "info";
-    $playlistManager->createPlaylist($playlist);
+    $result = $playlistManager->createPlaylist($playlist);
+    $this->assertEquals("OK", $result->status);
+  }
+
+  public function testCreatePlaylistWithCover() {
+    $playlistManager = new PlaylistManager();
+    $playlist = new Playlist();
+    $playlist->cover = __DIR__ . "/music/Metallica - Load - 1997/cover.jpg";
+    $playlist->title = "title";
+    $playlist->info = "info";
+    $result = $playlistManager->createPlaylist($playlist);
     $this->assertEquals("OK", $result->status);
   }
 }
@@ -30,10 +40,10 @@ class PlaylistManager {
   public function createPlaylist($playlist) {
     $this->request->addPostParameter('playlist_name', $playlist->title)
                   ->addPostParameter('playlist_text', $playlist->info);
-                  #->addUpload('cover', $playlist->cover, 'cover.jpg', 'image/jpeg');
+    if ($playlist->cover) $this->request->addUpload('cover', $playlist->cover, 'cover.jpg', 'image/jpeg');
     $json = $this->request->send()->getBody();    
     $result = json_decode($json);
-    var_dump($result);
+    #var_dump($result);
     return $result;
   }
 }
