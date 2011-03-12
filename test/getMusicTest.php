@@ -1,6 +1,6 @@
 <?php
-include "test/config.php";
-include "lib/PlaylistBuilder.php";
+require_once "test/config.php";
+require_once "lib/PlaylistBuilder.php";
 
 class PlaylistBuilderTests extends PHPUnit_Framework_TestCase { 
   public function testGetValid() {
