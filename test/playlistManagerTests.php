@@ -4,7 +4,6 @@ require_once "lib/PlaylistBuilder.php";
 require_once 'HTTP/Request2.php';
 
 class PlaylistManagerTests extends PHPUnit_Framework_TestCase { 
-  /*
   public function testCreatePlaylistNoCover() {
     $playlistManager = new PlaylistManager();
     $playlist = new Playlist();
@@ -14,7 +13,7 @@ class PlaylistManagerTests extends PHPUnit_Framework_TestCase {
     $result = $playlistManager->createPlaylist($playlist);
     $this->assertEquals("OK", $result->status);
   }
-  */
+  
   public function testCreatePlaylistWithCover() {
     $playlistManager = new PlaylistManager();
     $playlist = new Playlist();
@@ -42,7 +41,6 @@ class PlaylistManager {
     $this->request->addPostParameter('playlist_name', $playlist->title)
                   ->addPostParameter('playlist_text', $playlist->info);
     if ($playlist->cover) $this->request->addUpload('cover', $playlist->cover);
-    var_dump ($playlist->cover);
     $json = $this->request->send()->getBody();    
     $result = json_decode($json);
     return $result;
