@@ -15,3 +15,18 @@
  /music/2009 ROOTS Sepultura/blooody_rooted.mp3
  /music/2009 ROOTS Sepultura/arrrgghhh.mp3
 
+Еще для Пуши требуется конфиг. В той же дире где лежит pusha.php создаем config.yml
+ create_playlist_url: http://api.namba.dev/createPlaylist.php
+ upload_file_url: http://api.namba.dev/uploadFile.php
+ add_mp3_to_playlist_url: http://api.namba.dev/addMp3ToPlaylist.php
+ music_path: /mnt/src/pusha/test/music
+ username: user
+ password: 
+
+После этого запускаем php pusha.php 
+
+== Пуша для видео
+
+== Пуша для Ютюба
+
+== Пуша для Рутьюба
