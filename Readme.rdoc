@@ -1,5 +1,17 @@
 = Пуша
 Пуша - это автоматический добавлятор контента в Намбу
 == Пуша для музыки
-Пушу можно натравить на специально сформированную музыкальную дискографию на жестком диске и Пуша поместит ее на Намбу
+Пушу можно натравить на специально сформированную музыкальную дискографию на жестком диске и Пуша поместит ее на Намбу. 
+Для того, чтобы Пуша могла правильно работать с музыкальными альбомами, требуется создать дискографию в специальном формате:
+ /music
+ /music/Metallica-2008-Reload
+ /music/Metallica-2008-Reload/cover.jpg
+ /music/Metallica-2008-Reload/info.txt
+ /music/Metallica-2008-Reload/01-track.mp3
+ /music/Metallica-2008-Reload/02-track.mp3
+ /music/2009 ROOTS Sepultura
+ /music/2009 ROOTS Sepultura/cover.jpg
+ /music/2009 ROOTS Sepultura/info.txt
+ /music/2009 ROOTS Sepultura/blooody_rooted.mp3
+ /music/2009 ROOTS Sepultura/arrrgghhh.mp3
 
