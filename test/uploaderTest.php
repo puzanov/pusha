@@ -1,6 +1,6 @@
 <? 
 include "config.php";
-include "lib/Uploader.php";
+require_once "lib/Uploader.php";
 
 class UploaderTests extends PHPUnit_Framework_TestCase {
   public function testUpload() {
