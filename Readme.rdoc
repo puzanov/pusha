@@ -23,7 +23,30 @@
  username: user
  password: 
 
-После этого запускаем php pusha.php 
+После этого запускаем php pusha.php. Аутпут должен быть похож на этот:
+oleg@ubuntu:/mnt/src/pusha$ php pusha.php
+  Working with /mnt/src/pusha/test/music/empty
+  Empty directory
+  Working with /mnt/src/pusha/test/music/notracks
+  No MP3 tracks
+  Working with /mnt/src/pusha/test/music/Metallica - Load - 1997
+  Uploading tracks for Metallica - Load - 1997
+  Uploading /mnt/src/pusha/test/music/Metallica - Load - 1997/track1.mp3
+  File id is 2399984
+  Uploading /mnt/src/pusha/test/music/Metallica - Load - 1997/track2.mp3
+  File id is 2399985
+  Uploading /mnt/src/pusha/test/music/Metallica - Load - 1997/track3.MP3
+  File id is 2399986
+  Creating playlist Metallica - Load - 1997
+  Playlist id is 7267
+  Adding tracks to playlist
+  OK
+  OK
+  OK
+  Working with /mnt/src/pusha/test/music/dot
+  Empty directory
+  Working with /mnt/src/pusha/test/music/invalid_dir
+  No MP3 tracks
 
 == Пуша для видео
 
