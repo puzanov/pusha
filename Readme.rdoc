@@ -23,6 +23,10 @@
  username: user
  password: 
 
+Также потребуется установить libyaml и libyaml-dev, затем выполнить команды:
+   sudo pecl install yaml
+   sudo pear install -f HTTP_Request2
+
 После этого запускаем php pusha.php. Аутпут должен быть похож на этот:
   oleg@ubuntu:/mnt/src/pusha$ php pusha.php
   Working with /mnt/src/pusha/test/music/empty
