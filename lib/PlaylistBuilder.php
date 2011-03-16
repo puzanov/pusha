@@ -1,4 +1,5 @@
 <?
+require_once __DIR__.'/UTF.php';
 class PlaylistBuilder {
   public function build($pathToPlaylistFiles) {
     $items = glob("{$pathToPlaylistFiles}/*");
@@ -9,7 +10,7 @@ class PlaylistBuilder {
       $playlist->cover = NULL;
     }
     $playlist->title = array_pop(explode("/", $pathToPlaylistFiles));
-    $playlist->info = @file_get_contents($pathToPlaylistFiles . "/info.txt");
+    $playlist->info =  UTF::getUTF8String(@file_get_contents($pathToPlaylistFiles . "/info.txt"));
     $playlist->tracks = glob("{$pathToPlaylistFiles}/*.{mp3,MP3,Mp3,mP3}", GLOB_BRACE);
     if (empty($playlist->tracks)) throw new IncompletePlaylistException("No MP3 tracks");
     return $playlist;

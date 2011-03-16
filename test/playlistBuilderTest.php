@@ -47,4 +47,11 @@ class PlaylistBuilderTests extends PHPUnit_Framework_TestCase {
     $playlist = $builder->build(__DIR__ . "/music/dot");
     $this->assertEquals(__DIR__ . "/music/dot/.track.mp3", $playlist->tracks[0]);
   }
+
+  public function testGetValid_cyrillicInPlaylistInfo() {
+    $builder = new PlaylistBuilder();
+    $playlist = $builder->build(__DIR__ . "/music/По-русски");
+    $this->assertTrue( strpos($playlist->info, 'Альбом с описанием на кириллице')!=-1 );
+    $this->assertEquals(__DIR__ . "/music/По-русски/Песня1.mp3", $playlist->tracks[0]);
+  }
 }
