@@ -6,14 +6,23 @@ require_once "lib/CurlFileUploader.php";
 
 class VideoTests extends PHPUnit_Framework_TestCase {
   public function testGet() {
-    $config = yaml_parse(file_get_contents("config.yml"));    
-    $client = new HttpClient('login.namba.test');
-    $client->cookie_host = 'namba.test';
+    $video_uploader = new VideoUploader();
+    $video_uploader->upload('/mnt/src/pusha/test/video/osel.flv', 1);
+  }
+}
+
+class VideoUploader {
+  var $config = array();
+  public function __construct() {
+    $this->config = yaml_parse(file_get_contents("config.yml"));    
+  }
+  public function upload($video_path, $category_id) {
+    $client = new HttpClient($this->config['login_host']);
     $client->handle_redirects;
-    $client->referer = 'http://video.namba.test/add.php';
+    $client->referer = $this->config['add_video_url'];
     $client->post('/login.php', array(
-        'login' => $config['username'],
-        'password' => $config['password'],
+        'login' => $this->config['username'],
+        'password' => $this->config['password'],
         'sub' => 'Войти'
     ));
     
@@ -21,23 +30,34 @@ class VideoTests extends PHPUnit_Framework_TestCase {
     $resForSession = array();
     preg_match('/\<input name=\"ses\" type=\"hidden\" value=\"(.*)\"\/\>/', $content, $resForSession);
     $ses = $resForSession[1];
+    
+    if ($ses == NULL) {
+      throw new AuthError();
+    }
+    
     $resForUploadhost = array();
     preg_match("/var uploadHost \= '(.*)'\;/", $content, $resForUploadhost);
     $uploadHost = $resForUploadhost[1];
 
     $uploader = new CurlFileUploader(
-      '/mnt/src/pusha/test/video/osel.flv',
+      $video_path,
       'http://'.$uploadHost.'/upload',
       'file',
       array(
           'ses'=>$ses,
-          'l'=>$config['username'],
+          'l'=>$this->config['username'],
           'video_service'=>1,
           'title'=>'test video',
-          'category_id'=>1
+          'category_id'=>$category_id
       )
     );
 
-    $uploader->UploadFile();
+    $upload_result = $uploader->UploadFile();
+    if (!preg_match("/X-Namba-FileId:/", $upload_result)) {
+      throw new VideoUploadFailed();
+    }
   }
 }
+
+class AuthError extends Exception {}
+class VideoUploadFailed extends Exception {}
