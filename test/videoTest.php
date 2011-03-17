@@ -10,7 +10,15 @@ class VideoTests extends PHPUnit_Framework_TestCase {
     $video_uploader = new VideoUploader();
     $video_uploader->upload('/mnt/src/pusha/test/video/osel.flv', 1);
   }
-
+  
+  /**
+   * @expectedException VideoUploadFailed
+   */
+  public function testUploadVideo_Failed() {
+    $video_uploader = new VideoUploader();
+    $video_uploader->upload('/mnt/src/pusha/test/video/non_existend.flv', 1);
+  }
+  
   public function testGetTitle() {
     $video_uploader = new VideoUploader();
     $title = $video_uploader->getTitle('/mnt/src/pusha/test/video/osel.flv');
