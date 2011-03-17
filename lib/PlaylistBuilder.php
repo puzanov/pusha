@@ -1,5 +1,6 @@
 <?
 require_once __DIR__.'/UTF.php';
+
 class PlaylistBuilder {
   public function build($pathToPlaylistFiles) {
     $items = glob("{$pathToPlaylistFiles}/*");

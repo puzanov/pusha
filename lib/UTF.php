@@ -1,4 +1,4 @@
-<?
+<?php
 class UTF {
   protected static $encodingsList = array('utf-8', 'windows-1251');
   public static function getUTF8String($string) {
