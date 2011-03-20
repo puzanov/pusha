@@ -5,7 +5,7 @@ require_once "lib/HttpClient.php";
 require_once "lib/CurlFileUploader.php";
 require_once "lib/VideoUploader.php";
 
-class VideoTests extends PHPUnit_Framework_TestCase {
+class VideoUploaderTests extends PHPUnit_Framework_TestCase {
   public function testUploadVideo() {
     $video_uploader = new VideoUploader();
     $video_uploader->upload('/mnt/src/pusha/test/video/osel.flv', 1);
