@@ -21,6 +21,18 @@ while (false !== ($entry = $d->read())) {
       continue;
     } else {
       echo "Playlist is new\n";
+      echo "Creating playlist {$playlist->title}\n";
+      $result = $manager->createPlaylist($playlist);
+      if ($result == NULL || $result->status == "ERR") {
+        echo "Cannot create playlist\n";
+        continue;
+      }
+      if ($result->status == "ERR") {
+        echo "Cannot create playlist\n";
+        continue;
+      }
+      $playlist_id = $result->playlist_id;
+      echo "Playlist id is $playlist_id\n";
     }
     echo "Uploading tracks for {$playlist->title}\n";
     foreach ($playlist->tracks as $track) {
@@ -29,9 +41,6 @@ while (false !== ($entry = $d->read())) {
       $mp3s[] = $file_id;
       echo "File id is $file_id\n";
     }
-    echo "Creating playlist {$playlist->title}\n";
-    $playlist_id = $manager->createPlaylist($playlist)->playlist_id;
-    echo "Playlist id is $playlist_id\n";
     echo "Adding tracks to playlist\n";
     foreach ($mp3s as $mp3) {
       echo $manager->addMp3ToPlaylist($playlist_id, $mp3)->status."\n";
