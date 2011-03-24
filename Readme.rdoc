@@ -19,6 +19,7 @@
  create_playlist_url: http://api.namba.dev/createPlaylist.php
  upload_file_url: http://api.namba.dev/uploadFile.php
  add_mp3_to_playlist_url: http://api.namba.dev/addMp3ToPlaylist.php
+ playlist_exists_url: http://api.namba.test/playlist_exists.php
  music_path: /mnt/src/pusha/test/music
  username: user
  password: 
@@ -51,6 +52,11 @@
   Empty directory
   Working with /mnt/src/pusha/test/music/invalid_dir
   No MP3 tracks
+
+Если плейлист уже есть на Намбе то Пуша его не будет добавлять. Проверка происходит по названию плейлиста
+  Working with /mnt/src/pusha/test/music/Metallica - Load - 1997
+  Is playlist exists?
+  We have this playlist already. Skipping...
 
 == Пуша для видео
 

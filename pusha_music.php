@@ -15,7 +15,7 @@ while (false !== ($entry = $d->read())) {
     $playlist = $builder->build($dir);
     $uploader = new Uploader();
     $mp3s = array();
-    echo "Is playlist exists?";
+    echo "Is playlist exists?\n";
     if ($manager->isNew($playlist->title)->status) {
       echo "We have this playlist already. Skipping...\n";
       continue;
