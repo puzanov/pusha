@@ -35,4 +35,19 @@ class PlaylistManagerTests extends PHPUnit_Framework_TestCase {
     $result = $playlistManager->addMp3ToPlaylist($playlist_id, $file_id);
     $this->assertEquals("OK", $result->status);
   }
+
+  public function testIsNewPlaylist() {
+    $playlistManager = new PlaylistManager();
+    $title = "metallica".time();
+    $result = $playlistManager->isNew($title);
+    $this->assertNull($result->status);
+
+    $playlist = new Playlist();
+    $playlist->cover = NULL;
+    $playlist->title = $title;
+    $result = $playlistManager->createPlaylist($playlist);
+    
+    $result = $playlistManager->isNew($title);
+    $this->assertNotNull($result->status);
+  }
 }

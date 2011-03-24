@@ -33,4 +33,12 @@ class PlaylistManager {
     $result = json_decode($json);
     return $result;
   }
+
+  public function isNew($title) {
+    $request = new HTTP_Request2($this->config["playlist_exists_url"]);
+    $request->setMethod(HTTP_Request2::METHOD_POST)->addPostParameter('playlist_name', $title);
+    $json = $request->send()->getBody();
+    $result = json_decode($json);
+    return $result;
+  }
 }

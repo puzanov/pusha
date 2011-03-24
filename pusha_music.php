@@ -15,6 +15,13 @@ while (false !== ($entry = $d->read())) {
     $playlist = $builder->build($dir);
     $uploader = new Uploader();
     $mp3s = array();
+    echo "Is playlist exists?";
+    if ($manager->isNew($playlist->title)->status) {
+      echo "We have this playlist already. Skipping...\n";
+      continue;
+    } else {
+      echo "Playlist is new\n";
+    }
     echo "Uploading tracks for {$playlist->title}\n";
     foreach ($playlist->tracks as $track) {
       echo "Uploading $track\n";
