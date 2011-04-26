@@ -22,12 +22,13 @@ class PlaylistManager {
     return $result;
   }
 
-  public function addMp3ToPlaylist($playlist_id, $file_id) {
+  public function addMp3ToPlaylist($playlist_id, $file_id, $position = 0) {
     $request = new HTTP_Request2($this->config["add_mp3_to_playlist_url"]);
     $request->setMethod(HTTP_Request2::METHOD_POST)
                   ->addPostParameter('username', $this->config["username"])
                   ->addPostParameter('password', $this->config["password"])
                   ->addPostParameter('playlist_id', $playlist_id)
+                  ->addPostParameter('position', $position)
                   ->addPostParameter('music_id',    $file_id);
     $json = $request->send()->getBody();                    
     $result = json_decode($json);

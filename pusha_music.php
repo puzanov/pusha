@@ -42,8 +42,8 @@ while (false !== ($entry = $d->read())) {
       echo "File id is $file_id\n";
     }
     echo "Adding tracks to playlist\n";
-    foreach ($mp3s as $mp3) {
-      echo $manager->addMp3ToPlaylist($playlist_id, $mp3)->status."\n";
+    foreach ($mp3s as $i => $mp3) {
+      echo $manager->addMp3ToPlaylist($playlist_id, $mp3, ($i + 1))->status."\n";
     }  
   } catch (IncompletePlaylistException $e) {
     echo $e->getMessage()."\n";
