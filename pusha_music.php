@@ -1,4 +1,4 @@
-<? 
+<?php 
 require_once "lib/PlaylistManager.php";
 require_once "lib/PlaylistBuilder.php";
 require_once "lib/Uploader.php";
