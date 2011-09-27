@@ -7,7 +7,11 @@ class PlaylistBuilder {
     $items = glob("{$pathToPlaylistFilesEscaped}/*");
     if (empty($items)) throw new IncompletePlaylistException("Empty directory");
     $playlist = new Playlist();
-    $playlist->cover = $pathToPlaylistFiles . "/cover.jpg";
+    $covers = glob("{$pathToPlaylistFiles}/*.{jpg,jpeg,JPG,png,PNG}", GLOB_BRACE);
+    $playlist->cover = $covers[0];
+    if (filesize($playlist->cover) > 307200) {
+      $playlist->cover = NULL;
+    }
     if (!is_file($playlist->cover)) {
       $playlist->cover = NULL;
     }

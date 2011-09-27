@@ -43,6 +43,7 @@ while (false !== ($entry = $d->read())) {
     }
     echo "Adding tracks to playlist\n";
     foreach ($mp3s as $mp3) {
+      if (empty$mp3) {continue;}
       echo $manager->addMp3ToPlaylist($playlist_id, $mp3)->status."\n";
     }  
   } catch (IncompletePlaylistException $e) {
