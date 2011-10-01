@@ -38,14 +38,13 @@ while (false !== ($entry = $d->read())) {
     foreach ($playlist->tracks as $track) {
       echo "Uploading $track\n";
       $file_id = $uploader->upload($track)->file_id;
-      $mp3s[] = $file_id;
       echo "File id is $file_id\n";
+      if (empty($file_id)) {
+        echo "Ups... Failed to upload file... Skip it\n";
+      }
+      echo "Add this track to playlist\n";
+      echo $manager->addMp3ToPlaylist($playlist_id, $file_id)->status."\n";
     }
-    echo "Adding tracks to playlist\n";
-    foreach ($mp3s as $mp3) {
-      if (empty($mp3)) {continue;}
-      echo $manager->addMp3ToPlaylist($playlist_id, $mp3)->status."\n";
-    }  
   } catch (IncompletePlaylistException $e) {
     echo $e->getMessage()."\n";
   }  
