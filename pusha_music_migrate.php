@@ -12,18 +12,25 @@ $url->setQueryVariables(array(
 ));
 $json = $request->send()->getBody();
 $playlist = json_decode($json);
-var_dump($playlist);
+
 if (empty($playlist)) {
   echo "Failed to get platylist\n";
   exit;
 }
-system("rm -rf from_kg/*");
-mkdir("from_kg/{$playlist->name}");
+if (empty($config["music_path"])) {
+  die("music_path is not defined.\n");
+}
+system("rm -rf {$config["music_path"]}/*");
+$playlist_dir = "{$config["music_path"]}/{$playlist->name}";
+mkdir($playlist_dir);
+if (!empty($playlist->text)) {
+  file_put_contents("{$playlist_dir}/info.txt", $playlist->text);  
+}
 if ($playlist->cover > 0) {
-  system("cd \"from_kg/{$playlist->name}\"; wget http://download.files.namba.kg/files/{$playlist->cover}/cover.jpg");
+  system("cd \"{$playlist_dir}\"; wget http://download.files.namba.kg/files/{$playlist->cover}/cover.jpg");
 }  
 foreach ($playlist->files as $file) {
-  system("wget \"http://download.files.namba.kg/files/{$file->id}/{$file->filename}?{$file->key}\" -O \"from_kg/{$playlist->name}/{$file->filename}\"");
+  system("wget \"http://download.files.namba.kg/files/{$file->id}/{$file->filename}?{$file->key}\" -O \"{$playlist_dir}/{$file->filename}\"");
 }
 system("php pusha_music.php");
 ?>

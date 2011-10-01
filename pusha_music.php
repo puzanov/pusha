@@ -41,6 +41,7 @@ while (false !== ($entry = $d->read())) {
       echo "File id is $file_id\n";
       if (empty($file_id)) {
         echo "Ups... Failed to upload file... Skip it\n";
+        continue;
       }
       echo "Add this track to playlist\n";
       echo $manager->addMp3ToPlaylist($playlist_id, $file_id)->status."\n";
