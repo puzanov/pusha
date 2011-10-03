@@ -21,6 +21,7 @@ if (empty($config["music_path"])) {
   die("music_path is not defined.\n");
 }
 system("rm -rf {$config["music_path"]}/*");
+$playlist->name = preg_replace("/[^\ 0-9a-zA-Zа-яА-Я]/u", "", $playlist->name);
 $playlist_dir = "{$config["music_path"]}/{$playlist->name}";
 mkdir($playlist_dir);
 if (!empty($playlist->text)) {
