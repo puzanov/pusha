@@ -37,7 +37,12 @@ while (false !== ($entry = $d->read())) {
     echo "Uploading tracks for {$playlist->title}\n";
     foreach ($playlist->tracks as $track) {
       echo "Uploading $track\n";
-      $file_id = $uploader->upload($track)->file_id;
+      try {
+        $file_id = $uploader->upload($track)->file_id;
+      } catch(Exception $e) {
+        echo "Error uploading file ".$e->getMessage()."\n";
+        continue;
+      }  
       echo "File id is $file_id\n";
       if (empty($file_id)) {
         echo "Ups... Failed to upload file... Skip it\n";
