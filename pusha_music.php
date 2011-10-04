@@ -49,7 +49,11 @@ while (false !== ($entry = $d->read())) {
         continue;
       }
       echo "Add this track to playlist\n";
-      echo $manager->addMp3ToPlaylist($playlist_id, $file_id)->status."\n";
+      try {
+        echo $manager->addMp3ToPlaylist($playlist_id, $file_id)->status."\n";
+      } catch(Exception $e) {
+        echo "Error adding track to playlist ".$e->getMessage()."\n";
+      }  
     }
   } catch (IncompletePlaylistException $e) {
     echo $e->getMessage()."\n";
