@@ -14,6 +14,12 @@ while (false !== ($entry = $d->read())) {
   while (false !== ($video = $dv->read())) {
     if ($video == ".." || $video == ".") continue;
     if (is_dir($config['video_path']."/".$entry."/".$video)) continue;
-    $video_uploader->upload($config['video_path']."/".$entry."/".$video, $category_id);
+    try {
+      echo "uploading video ".$config['video_path']."/".$entry."/".$video." to category $category_id\n";
+      $video_uploader->upload($config['video_path']."/".$entry."/".$video, $category_id);
+      echo "gooood\n";
+    } catch (Exception $e) {
+      echo "failed :( ".$e->getMessage()."\n";
+    } 
   }  
 }
