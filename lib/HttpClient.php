@@ -194,7 +194,17 @@ class HttpClient {
                 if ($url['host'] != NULL) {
                   $this->host = $url['host'];
                 }
-                return $this->get($url['path']);
+
+              $query = array();
+              if (isset($url['query'])) {
+                $params = explode('&', $url['query']);
+                foreach ($params as $param) {
+                  list($key, $value) = explode('=', $param);
+                  $query[$key] = $value;
+                }
+              }
+
+                return $this->get($url['path'], $query);
             }
         }
         return true;

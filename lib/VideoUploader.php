@@ -2,8 +2,12 @@
 class VideoUploader {
   var $config = array();
 
-  public function __construct() {
-    $this->config = yaml_parse(file_get_contents("config.yml"));
+  public function __construct($config = null) {
+    if (!$config) {
+      $this->config = yaml_parse(file_get_contents("config.yml"));
+    } else {
+      $this->config = $config;
+    }
   }
 
   public function getTitle($video_path) {
@@ -21,32 +25,25 @@ class VideoUploader {
   public function upload($video_path, $category_id) {
     $client = new HttpClient($this->config['login_host']);
     $client->handle_redirects;
-    $client->referer = $this->config['add_video_url'];
+    $client->referer = $this->config['json_data_url'];
     $client->post('/login.php', array(
         'login' => $this->config['username'],
         'password' => $this->config['password'],
         'sub' => 'Войти'
     ));
 
-    $content = $client->getContent();
-    $resForSession = array();
-    preg_match('/\<input name=\"ses\" type=\"hidden\" value=\"(.*)\"\/\>/', $content, $resForSession);
-    $ses = $resForSession[1];
+    $data = json_decode($client->getContent(), true);
 
-    if ($ses == NULL) {
+    if (isset($data['success']) && $data['success'] === false) {
       throw new AuthError();
     }
 
-    $resForUploadhost = array();
-    preg_match("/var uploadHost \= '(.*)'\;/", $content, $resForUploadhost);
-    $uploadHost = $resForUploadhost[1];
-
     $uploader = new CurlFileUploader(
       $video_path,
-      'http://'.$uploadHost.'/upload',
+      $data['upload_host'],
       'file',
       array(
-        'ses'=>$ses,
+        'ses'=>$data['ses'],
         'l'=>$this->config['username'],
         'video_service'=>1,
         'title'=>$this->getTitle($video_path),
@@ -55,9 +52,12 @@ class VideoUploader {
     );
 
     $upload_result = $uploader->UploadFile();
-    if (!preg_match("/X-Namba-FileId:/", $upload_result)) {
+    $matches = array();
+    if (!preg_match("/X-Namba-FileId: ([0-9]+)/", $upload_result, $matches)) {
       throw new VideoUploadFailed();
     }
+
+    return (int) $matches[1];
   }
 }
 class AuthError extends Exception{}
