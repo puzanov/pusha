@@ -21,7 +21,7 @@ function migrate_playlist_to_kz($job) {
 
   if (empty($playlist)) {
     echo "Failed to get platylist\n";
-    exit;
+    return;
   }
   if (empty($config["music_path"])) {
     die("music_path is not defined.\n");
