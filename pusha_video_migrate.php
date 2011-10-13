@@ -26,7 +26,7 @@ function migrate_video_to_kz($job) {
   $json = file_get_contents("http://video.namba.kg/json/?_=1317879687192&action=video&id={$job->workload()}");
   $video = json_decode($json);
   mkdir ("videos/{$video->video->category->id}");
-  $video->video->title = preg_replace("/[^\ 0-9a-zA-Zа-яА-Я]/u", "", $video->video->raw_title);
+  $video->video->title = preg_replace("/[^\ 0-9a-zA-Zа-яА-Я]/u", "", $video->video->title);
   system("wget \"{$video->video->download->flv}\" -O \"videos/{$video->video->category->id}/{$video->video->raw_title}.flv\"");
   system("php pusha_video.php");
 }
