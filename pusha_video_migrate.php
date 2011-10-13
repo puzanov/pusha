@@ -27,7 +27,7 @@ function migrate_video_to_kz($job) {
   $video = json_decode($json);
   mkdir ("videos/{$video->video->category->id}");
   $video->video->title = preg_replace("/[^\ 0-9a-zA-Zа-яА-Я]/u", "", $video->video->title);
-  system("wget \"{$video->video->download->flv}\" -O \"videos/{$video->video->category->id}/{$video->video->raw_title}.flv\"");
+  system("wget \"{$video->video->download->flv}\" -O \"videos/{$video->video->category->id}/{$video->video->title}.flv\"");
   system("php pusha_video.php");
 }
 ?>
