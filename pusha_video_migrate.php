@@ -6,6 +6,7 @@ $worker->addFunction("migrate_video_to_kz", "migrate_video_to_kz");
 while ($worker->work());
 
 function migrate_video_to_kz($job) {
+  global $argv;
   if ($argv[1] == "kz") {
     $cat[16] = 18;
     $cat[1]  = 1;
