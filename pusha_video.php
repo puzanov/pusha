@@ -11,12 +11,12 @@ while (false !== ($entry = $d->read())) {
   $category_id = $entry;
   $video_uploader = new VideoUploader();
   $dv = dir($config['video_path']."/".$entry);
-  while (false !== ($video = $dv->read())) {
-    if ($video == ".." || $video == ".") continue;
-    if (is_dir($config['video_path']."/".$entry."/".$video)) continue;
+  $cd = $config['video_path']."/".$entry;
+  $flvs = glob("{{$cd}/*.flv,{$cd}/*/*.flv}",GLOB_BRACE);
+  foreach ($flvs as $video) {
     try {
-      echo "uploading video ".$config['video_path']."/".$entry."/".$video." to category $category_id\n";
-      $video_uploader->upload($config['video_path']."/".$entry."/".$video, $category_id);
+      echo "uploading video $video to category $category_id\n";
+      $video_uploader->upload($video, $category_id);
       echo "gooood\n";
     } catch (Exception $e) {
       echo "failed :( ".$e->getMessage()."\n";
