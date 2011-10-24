@@ -12,7 +12,7 @@ while (false !== ($entry = $d->read())) {
   $video_uploader = new VideoUploader();
   $dv = dir($config['video_path']."/".$entry);
   $cd = $config['video_path']."/".$entry;
-  $flvs = glob("{{$cd}/*.flv,{$cd}/*/*.flv}",GLOB_BRACE);
+  $flvs = glob("{{$cd}/*.*,{$cd}/*/*.*}",GLOB_BRACE);
   foreach ($flvs as $video) {
     try {
       echo "uploading video $video to category $category_id\n";
