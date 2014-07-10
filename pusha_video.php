@@ -20,6 +20,7 @@ while (false !== ($entry = $d->read())) {
       echo "gooood\n";
     } catch (Exception $e) {
       echo "failed :( ".$e->getMessage()."\n";
-    } 
+    }
+    sleep(0.5);
   }  
 }
